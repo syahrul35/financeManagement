@@ -1,16 +1,14 @@
 <template>
-  <Head title="Dashboard"/>
+  <Head title="Setting"/>
 
   <AuthenticatedLayout>
     <template #header>
-      Dashboard
+      Setting
     </template>
 
-    <div class="p-4 bg-white rounded-lg shadow-xl mb-4">
-      Welcome back, {{ $page.props.auth.user.name }}!
+    <div class="p-4 bg-white rounded-lg shadow-xl">
+      This is Setting page
     </div>
-
-    
   </AuthenticatedLayout>
 </template>
 

@@ -1,10 +1,15 @@
+<template>
+  <input
+      class="mt-1 border-gray-300 rounded-md shadow-sm  focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 focus-within:text-primary-600"
+      :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input"/>
+</template>
+
 <script setup>
 import { onMounted, ref } from 'vue';
 
-const model = defineModel({
-    type: String,
-    required: true,
-});
+defineProps(['modelValue']);
+
+defineEmits(['update:modelValue']);
 
 const input = ref(null);
 
@@ -13,14 +18,4 @@ onMounted(() => {
         input.value.focus();
     }
 });
-
-defineExpose({ focus: () => input.value.focus() });
 </script>
-
-<template>
-    <input
-        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-        v-model="model"
-        ref="input"
-    />
-</template>

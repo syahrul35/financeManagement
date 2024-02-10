@@ -1,16 +1,14 @@
 <template>
-  <Head title="Dashboard"/>
+  <Head title="Report"/>
 
   <AuthenticatedLayout>
     <template #header>
-      Dashboard
+      Report
     </template>
 
-    <div class="p-4 bg-white rounded-lg shadow-xl mb-4">
-      Welcome back, {{ $page.props.auth.user.name }}!
+    <div class="p-4 bg-white rounded-lg shadow-xl">
+      Sample static text page
     </div>
-
-    
   </AuthenticatedLayout>
 </template>
 

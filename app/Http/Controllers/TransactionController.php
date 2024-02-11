@@ -12,7 +12,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Pages/Transactions/Transactions');
+        return Inertia::render('Transactions/Transactions');
     }
 
     /**

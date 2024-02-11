@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TransactionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ReportController;
 use Inertia\Inertia;
 
 /*
@@ -32,9 +34,11 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/report', fn () => Inertia::render('Report'))->name('report');
+    // Route::get('/report', fn () => Inertia::render('Report/Report'))->name('report');
+    // Route::get('/transactions', fn () => Inertia::render('Transactions/Transactions'))->name('transactions');
 
     Route::resource('transactions', TransactionController::class);
+    Route::resource('report', ReportController::class);
 
     Route::get('/setting', fn () => Inertia::render('Setting'))->name('setting');
 

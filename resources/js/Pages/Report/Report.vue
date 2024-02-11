@@ -6,13 +6,13 @@
       Report
     </template>
 
-    <div class="p-4 bg-white rounded-lg shadow-xl">
-      Sample static text page
-    </div>
+    <table-transactions></table-transactions>
   </AuthenticatedLayout>
 </template>
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+
+import TableTransactions from '../../Components/TableTransactions.vue';
 </script>

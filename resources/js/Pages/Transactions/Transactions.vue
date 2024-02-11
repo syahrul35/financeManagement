@@ -16,6 +16,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
-import TableTransactions from './TableTransactions.vue';
+import TableTransactions from '../../Components/TableTransactions.vue';
 import ButtonActionTransaction from './ButtonActionTransaction.vue';
 </script>

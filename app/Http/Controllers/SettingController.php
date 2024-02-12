@@ -12,7 +12,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Pages/Setting');
+        return Inertia::render('Setting/Setting');
     }
 
     /**

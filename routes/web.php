@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
 use Inertia\Inertia;
 
 /*
@@ -34,19 +35,14 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    // Route::get('/report', fn () => Inertia::render('Report/Report'))->name('report');
-    // Route::get('/transactions', fn () => Inertia::render('Transactions/Transactions'))->name('transactions');
-
-    Route::resource('transactions', TransactionController::class);
-    Route::resource('report', ReportController::class);
-
-    Route::get('/setting', fn () => Inertia::render('Setting'))->name('setting');
-
-    // Route::get('users', [UserController::class, 'index'])->name('users.index');
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Page Route
+    Route::resource('transactions', TransactionController::class);
+    Route::resource('report', ReportController::class);
+    Route::resource('setting', SettingController::class);
 });
 
 require __DIR__.'/auth.php';

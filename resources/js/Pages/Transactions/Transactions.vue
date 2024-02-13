@@ -6,8 +6,12 @@
       Transactions
     </template>
 
-    <button-action-transaction></button-action-transaction>
-    <table-transactions></table-transactions>
+    <div id="table" class="bg-gray-50 shadow-lg rounded-xl min-w-full">
+      <div class="m-2">
+        <button-action-transaction></button-action-transaction>
+        <table-transactions></table-transactions>
+      </div>
+    </div>
     
   </AuthenticatedLayout>
 </template>

@@ -6,7 +6,7 @@
       Setting
     </template>
 
-    <div class="p-4 bg-white rounded-lg shadow-xl">
+    <div class="p-4 bg-white rounded-lg shadow-xl min-w-full">
       This is Setting page
     </div>
   </AuthenticatedLayout>

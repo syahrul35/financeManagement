@@ -6,7 +6,7 @@
       Report
     </template>
 
-    <div id="table" class="bg-gray-50 shadow-lg rounded-xl">
+    <div id="table" class="bg-gray-50 shadow-lg rounded-xl min-w-full">
       <div class="m-2">
         <h1 class="text-lg font-semibold mb-2 text-gray-700">Transactions on {{ currentMonth }}</h1>
         <button-action-report></button-action-report>
@@ -14,14 +14,14 @@
       </div>
     </div>
 
-    <div id="chart-expense" class="bg-gray-50 shadow-lg rounded-xl mt-4">
+    <div id="chart-expense" class="bg-gray-50 shadow-lg rounded-xl mt-4 min-w-full">
       <div class="m-2">
         <h1 class="text-lg font-semibold mb-2 text-gray-700 m-2">Frequent Expense on {{ currentMonth }}</h1>
         <ExpenseChart></ExpenseChart>
       </div>  
     </div>
 
-    <div id="chart-income" class="bg-gray-50 shadow-lg rounded-xl mt-4">
+    <div id="chart-income" class="bg-gray-50 shadow-lg rounded-xl mt-4 min-w-full">
       <div class="m-2">
         <h1 class="text-lg font-semibold mb-2 text-gray-700 m-2">Frequent Income on {{ currentMonth }}</h1>
         <IncomeChart></IncomeChart>

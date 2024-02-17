@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Category;
 
 class SettingController extends Controller
 {
@@ -12,7 +13,8 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Setting/Setting');
+        $categories = Category::all();
+        return Inertia::render('Setting/Setting', ['categories' => $categories]);
     }
 
     /**

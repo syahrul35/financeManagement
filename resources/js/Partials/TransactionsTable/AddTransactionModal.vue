@@ -13,26 +13,7 @@
                             Add Transaction
                             </h3>
 
-                            <div class="mt-2 sm:flex sm:items-center">
-                                <div class="rounded-lg overflow-hidden flex bg-gray-100 shadow-md">
-                                    <div 
-                                        @click="selectIncome" 
-                                        :class="{ 'bg-green-500 text-white': selectedType === 'income', 'hover:bg-green-400 hover:text-white': selectedType !== 'income' }" 
-                                        class="type-option cursor-pointer px-4 py-2 transition-colors duration-300 w-1/2"
-                                        id="incomeOption"
-                                    >
-                                        Income
-                                    </div>
-                                    <div 
-                                        @click="selectExpense" 
-                                        :class="{ 'bg-red-500 text-white': selectedType === 'expense', 'hover:bg-red-400 hover:text-white': selectedType !== 'expense' }" 
-                                        class="type-option cursor-pointer px-4 py-2 transition-colors duration-300 w-1/2"
-                                        id="expenseOption"
-                                    >
-                                        Expense
-                                    </div>
-                                </div>
-                            </div>
+                            <SelectType></SelectType>
                             <!-- Your input fields for adding transaction -->
                             <form @submit.prevent="submitForm">
                                 <div class="mt-4 sm:flex sm:items-center">
@@ -76,6 +57,7 @@
 
 <script setup>
     import { ref, defineProps, defineEmits } from 'vue';
+    import SelectType from '../../Components/SelectType.vue';
 
     // Modal
     const props = defineProps(['showModal']);
@@ -102,32 +84,5 @@
     };
     // end Modal
 
-    // Start Transaction Type
-    const selectedType = ref('income')
-
-    const selectIncome = () => {
-    selectedType.value = 'income'
-    // Update category options for income
-    // Assuming you have a method to update the category options
-    updateCategoryOptions('income')
-    }
-
-    const selectExpense = () => {
-    selectedType.value = 'expense'
-    // Update category options for expense
-    // Assuming you have a method to update the category options
-    updateCategoryOptions('expense')
-    }
-
-    const updateCategoryOptions = (type) => {
-    const selectElement = document.getElementById('transactionCategory')
-    selectElement.innerHTML = type === 'income' ?
-        `<option class="sm:text-sm" value="salary">Salary</option>
-        <option class="sm:text-sm" value="bonus">Bonus</option>
-        <option class="sm:text-sm" value="investment">Investment</option>` :
-        `<option class="sm:text-sm" value="food">Food</option>
-        <option class="sm:text-sm" value="clothing">Clothing</option>
-        <option class="sm:text-sm" value="housing">Housing</option>`
-    }
-    // End Transaction Type
+    
 </script>

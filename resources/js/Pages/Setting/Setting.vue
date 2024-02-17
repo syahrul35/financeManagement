@@ -6,8 +6,10 @@
       Setting
     </template>
 
-    <div class="p-4 bg-white rounded-lg shadow-xl min-w-full">
-      This is Setting page
+    <div class="bg-gray-50 shadow-lg rounded-xl min-w-full">
+      <div class="m-2">
+        <Category></Category>
+      </div>
     </div>
   </AuthenticatedLayout>
 </template>
@@ -15,4 +17,5 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import Category from '../../Partials/Category/Category.vue';
 </script>

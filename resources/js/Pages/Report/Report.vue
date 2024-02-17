@@ -35,7 +35,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
 import ButtonActionReport from './ButtonActionReport.vue';
-import TableTransactions from '../../Components/TableTransactions.vue';
+import TableTransactions from '../../Partials/TransactionsTable/TableTransactions.vue';
 
 import ExpenseChart from './ExpenseChart.vue';
 import IncomeChart from './IncomeChart.vue';

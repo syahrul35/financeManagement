@@ -18,7 +18,7 @@
                                     <div 
                                         @click="selectIncome" 
                                         :class="{ 'bg-green-500 text-white': selectedType === 'income', 'hover:bg-green-400 hover:text-white': selectedType !== 'income' }" 
-                                        class="type-option cursor-pointer px-4 py-2 transition-colors duration-300"
+                                        class="type-option cursor-pointer px-4 py-2 transition-colors duration-300 w-1/2"
                                         id="incomeOption"
                                     >
                                         Income
@@ -26,7 +26,7 @@
                                     <div 
                                         @click="selectExpense" 
                                         :class="{ 'bg-red-500 text-white': selectedType === 'expense', 'hover:bg-red-400 hover:text-white': selectedType !== 'expense' }" 
-                                        class="type-option cursor-pointer px-4 py-2 transition-colors duration-300"
+                                        class="type-option cursor-pointer px-4 py-2 transition-colors duration-300 w-1/2"
                                         id="expenseOption"
                                     >
                                         Expense
@@ -36,8 +36,8 @@
                             <!-- Your input fields for adding transaction -->
                             <form @submit.prevent="submitForm">
                                 <div class="mt-4 sm:flex sm:items-center">
-                                    <label for="transactionCategory" class="block text-sm font-medium text-gray-700 sm:w-1/4">Category</label>
-                                    <select v-model="transactionCategory" id="transactionCategory" name="transactionCategory" class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 block w-full shadow-sm sm:text-sm sm:w-3/4">
+                                    <label for="transactionCategory" class="block text-sm font-medium text-gray-700 sm:w-1/4 grid justify-start grid justify-items-start">Category</label>
+                                    <select v-model="transactionCategory" id="transactionCategory" name="transactionCategory" class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm sm:w-3/4">
                                         <option value="food">Food</option>
                                         <option value="clothing">Clothing</option>
                                         <option value="housing">Housing</option>
@@ -45,16 +45,16 @@
                                     </select>
                                 </div>
                                 <div class="mt-4 sm:flex sm:items-center">
-                                    <label for="transactionDate" class="block text-sm font-medium text-gray-700 sm:w-1/4">Date</label>
-                                    <input type="date" v-model="transactionDate" id="transactionDate" name="transactionDate" class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 block w-full shadow-sm sm:text-sm sm:w-3/4">
+                                    <label for="transactionDate" class="block text-sm font-medium text-gray-700 sm:w-1/4 grid justify-start">Date</label>
+                                    <input type="date" v-model="transactionDate" id="transactionDate" name="transactionDate" class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm sm:w-3/4">
                                 </div>
                                 <div class="mt-4 sm:flex sm:items-center">
-                                    <label for="transactionDescription" class="block text-sm font-medium text-gray-700 sm:w-1/4">Description</label>
-                                    <textarea v-model="transactionDescription" id="transactionDescription" name="transactionDescription" rows="3" class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 block w-full shadow-sm sm:text-sm sm:w-3/4"></textarea>
+                                    <label for="transactionDescription" class="block text-sm font-medium text-gray-700 sm:w-1/4 grid justify-start">Description</label>
+                                    <textarea v-model="transactionDescription" id="transactionDescription" name="transactionDescription" rows="3" class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm sm:w-3/4"></textarea>
                                 </div>
                                 <div class="mt-4 sm:flex sm:items-center">
-                                    <label for="transactionTotal" class="block text-sm font-medium text-gray-700 sm:w-1/4">Total</label>
-                                    <input type="number" v-model="transactionTotal" id="transactionTotal" name="transactionTotal" class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 block w-full shadow-sm sm:text-sm sm:w-3/4">
+                                    <label for="transactionTotal" class="block text-sm font-medium text-gray-700 sm:w-1/4 grid justify-start">Total</label>
+                                    <input type="number" v-model="transactionTotal" id="transactionTotal" name="transactionTotal" class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm sm:w-3/4">
                                 </div>
                             </form>
                         </div>  
@@ -100,7 +100,6 @@
     transactionDescription.value = ''; // Reset the input field
     transactionTotal.value = ''; // Reset the input field
     };
-
     // end Modal
 
     // Start Transaction Type
@@ -123,12 +122,12 @@
     const updateCategoryOptions = (type) => {
     const selectElement = document.getElementById('transactionCategory')
     selectElement.innerHTML = type === 'income' ?
-        `<option value="salary">Salary</option>
-        <option value="bonus">Bonus</option>
-        <option value="investment">Investment</option>` :
-        `<option value="food">Food</option>
-        <option value="clothing">Clothing</option>
-        <option value="housing">Housing</option>`
+        `<option class="sm:text-sm" value="salary">Salary</option>
+        <option class="sm:text-sm" value="bonus">Bonus</option>
+        <option class="sm:text-sm" value="investment">Investment</option>` :
+        `<option class="sm:text-sm" value="food">Food</option>
+        <option class="sm:text-sm" value="clothing">Clothing</option>
+        <option class="sm:text-sm" value="housing">Housing</option>`
     }
     // End Transaction Type
 </script>

@@ -14,7 +14,7 @@
                         <form @submit.prevent="submitForm" class="mt-4">
                             <div class="sm:flex sm:items-center justify-between">
                                 <label for="categoryName" class="block text-sm font-medium text-gray-700 sm:w-2/6">Category Name</label>
-                                <input type="text" id="categoryName" name="categoryName" class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block sm:w-4/6 sm:text-sm border-gray-300 rounded-md">
+                                <input type="text" id="categoryName" name="categoryName" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:w-4/6 sm:text-sm border-gray-300 rounded-md">
                             </div>
                         </form>
                     </div>
@@ -34,38 +34,30 @@
   </transition>
 </template>
   
-<script>
-  export default {
-    data() {
-      return {
-        categoryName: '',
-      };
-    },
-    methods: {
-      closeModal() {
-        this.$emit('closeModal');
-      },
-      submitForm() {
-        // Handle form submission, e.g., send data to backend
-        // Then close modal
-        this.closeModal();
-      },
-      closeModalOutside(event) {
-        // Tutup modal jika yang diklik adalah latar belakang modal itu sendiri
-        if (event.target === event.currentTarget) {
-          this.closeModal();
-        }
-      },
-    },
+<script setup>
+  import { ref, defineProps, defineEmits } from 'vue';
+
+  const props = defineProps(['showModal']);
+  const emits = defineEmits(['closeModal']);
+
+  const transactionName = ref('');
+  const transactionDate = ref('');
+  const transactionCategory = ref('');
+  const transactionDescription = ref('');
+  const transactionTotal = ref('');
+
+  const submitForm = () => {
+  // Logic to handle form submission
+  // For example, you can emit an event to pass the data to the parent component
+  };
+
+  const closeModal = () => {
+  emits('closeModal'); // Emit event to close the modal
+  transactionName.value = ''; // Reset the input field
+  transactionDate.value = ''; // Reset the input field
+  transactionCategory.value = ''; // Reset the input field
+  transactionDescription.value = ''; // Reset the input field
+  transactionTotal.value = ''; // Reset the input field
   };
 </script>
-  
-  <style>
-  .modal-enter-active, .modal-leave-active {
-    transition: opacity 0.3s;
-  }
-  .modal-enter-from, .modal-leave-to {
-    opacity: 0;
-  }
-  </style>
   

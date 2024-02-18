@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Category;
+use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Facades\Redirect;
 
 class SettingController extends Controller
 {
@@ -30,7 +32,20 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'categoryName' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+        ]);
+
+        // Create the category
+        $category = Category::create([
+            'categoryName' => $validatedData['categoryName'],
+            'type' => $validatedData['type'],
+        ]);
+
+        // Return a response with the created category data
+        return response()->json(['message', 'Data Berhasil Disimpan!']);
     }
 
     /**
@@ -52,16 +67,36 @@ class SettingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Category $category)
     {
-        //
-    }
+        // Validasi input jika diperlukan
+        $validatedData = $request->validate([
+            'categoryName' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+        ]);
 
+        try {
+            // Perbarui atribut kategori berdasarkan input yang diterima
+            $category->update([
+                'categoryName' => $validatedData['categoryName'],
+                'type' => $validatedData['type'],
+            ]);
+
+            // Jika berhasil, kembalikan respons yang sesuai
+            return redirect()->back()->with('success', 'Category updated successfully.');
+
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi
+            return redirect()->back()->with('error', 'Failed to update category. ' . $e->getMessage());
+        }
+    }
+    
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $post = Category::findOrfail($id);
+        $post->delete();
     }
 }

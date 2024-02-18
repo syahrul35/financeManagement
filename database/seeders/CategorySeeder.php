@@ -13,110 +13,110 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        // Insert categories for income
+        // Insert categories for Income
         Category::create([
             'categoryName' => 'Salary',
-            'type' => 'income',
+            'type' => 'Income',
         ]);
 
         Category::create([
             'categoryName' => 'Bonus',
-            'type' => 'income',
+            'type' => 'Income',
         ]);
 
         Category::create([
             'categoryName' => 'Commission',
-            'type' => 'income',
+            'type' => 'Income',
         ]);
 
         Category::create([
             'categoryName' => 'Rental Income',
-            'type' => 'income',
+            'type' => 'Income',
         ]);
 
         Category::create([
             'categoryName' => 'Dividends',
-            'type' => 'income',
+            'type' => 'Income',
         ]);
 
         Category::create([
             'categoryName' => 'Interest Income',
-            'type' => 'income',
+            'type' => 'Income',
         ]);
 
         Category::create([
             'categoryName' => 'Capital Gains',
-            'type' => 'income',
+            'type' => 'Income',
         ]);
 
         Category::create([
             'categoryName' => 'Freelancing',
-            'type' => 'income',
+            'type' => 'Income',
         ]);
 
         Category::create([
             'categoryName' => 'Invesment Returns',
-            'type' => 'income',
+            'type' => 'Income',
         ]);
 
         Category::create([
             'categoryName' => 'Gifts',
-            'type' => 'income',
+            'type' => 'Income',
         ]);
-        // end insert category for income
+        // end insert category for Income
 
         // ----------------------------------------------------------------- //
 
-        // insert category for expense
+        // insert category for Expense
         Category::create([
             'categoryName' => 'Food & Dinning',
-            'type' => 'expense',
+            'type' => 'Expense',
         ]);
 
         Category::create([
             'categoryName' => 'Transportation',
-            'type' => 'expense',
+            'type' => 'Expense',
         ]);
 
         Category::create([
             'categoryName' => 'Housing',
-            'type' => 'expense',
+            'type' => 'Expense',
         ]);
 
         Category::create([
             'categoryName' => 'Utilities',
-            'type' => 'expense',
+            'type' => 'Expense',
         ]);
 
         Category::create([
             'categoryName' => 'Health & Fitness',
-            'type' => 'expense',
+            'type' => 'Expense',
         ]);
 
         Category::create([
             'categoryName' => 'Education',
-            'type' => 'expense',
+            'type' => 'Expense',
         ]);
 
         Category::create([
             'categoryName' => 'Entertainment',
-            'type' => 'expense',
+            'type' => 'Expense',
         ]);
 
         Category::create([
             'categoryName' => 'Clothing',
-            'type' => 'expense',
+            'type' => 'Expense',
         ]);
 
         Category::create([
             'categoryName' => 'Insurance',
-            'type' => 'expense',
+            'type' => 'Expense',
         ]);
 
         Category::create([
             'categoryName' => 'Debt Payments',
-            'type' => 'expense',
+            'type' => 'Expense',
         ]);
-        // end insert category for expense
+        // end insert category for Expense
     }
 }

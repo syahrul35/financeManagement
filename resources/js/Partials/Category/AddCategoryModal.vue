@@ -8,23 +8,26 @@
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 max-h-[60vh] overflow-y-auto">
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                         <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                            Add Category
+                            Add Category - {{ props.currentType }}
                         </h3>
                         <!-- Your input fields for adding category -->
                         <form @submit.prevent="submitForm" class="mt-4">
                             <div class="sm:flex sm:items-center justify-between">
                                 <label for="categoryName" class="block text-sm font-medium text-gray-700 sm:w-2/6">Category Name</label>
                                 <input type="text" id="categoryName" name="categoryName" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:w-4/6 sm:text-sm border-gray-300 rounded-md">
+                                <input type="hidden" id="type" name="type" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:w-4/6 sm:text-sm border-gray-300 rounded-md" v-model="props.currentType">
                             </div>
                         </form>
                     </div>
                 </div>
                 <div class="bg-indigo-200 px-4 py-3 sm:px-6 sm:flex sm:flex-row justify-end">
-                    <form @submit.prevent="submitForm" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-500 text-base font-medium text-white hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:w-auto sm:text-sm mr-2 min-w-20 mb-2">
-                    Save
+                    <form @submit.prevent="submitForm" >
+                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-500 text-base font-medium text-white hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:w-auto sm:text-sm mr-2 min-w-20 mt-2">
+                            Save
+                        </button>
                     </form>
 
-                    <button @click="closeModal" type="button" class="min-w-20 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:w-auto sm:text-sm mb-2">
+                    <button @click="closeModal" type="button" class="min-w-20 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:w-auto sm:text-sm mt-2">
                     Cancel
                     </button>
                 </div>
@@ -35,29 +38,32 @@
 </template>
   
 <script setup>
-  import { ref, defineProps, defineEmits } from 'vue';
+    import { ref, defineProps, defineEmits } from 'vue';
 
-  const props = defineProps(['showModal']);
-  const emits = defineEmits(['closeModal']);
+    const props = defineProps({
+        currentType: String
+    });
 
-  const transactionName = ref('');
-  const transactionDate = ref('');
-  const transactionCategory = ref('');
-  const transactionDescription = ref('');
-  const transactionTotal = ref('');
+    const emits = defineEmits(['closeModal']);
 
-  const submitForm = () => {
-  // Logic to handle form submission
-  // For example, you can emit an event to pass the data to the parent component
-  };
+    const transactionName = ref('');
+    const transactionDate = ref('');
+    const transactionCategory = ref('');
+    const transactionDescription = ref('');
+    const transactionTotal = ref('');
 
-  const closeModal = () => {
-  emits('closeModal'); // Emit event to close the modal
-  transactionName.value = ''; // Reset the input field
-  transactionDate.value = ''; // Reset the input field
-  transactionCategory.value = ''; // Reset the input field
-  transactionDescription.value = ''; // Reset the input field
-  transactionTotal.value = ''; // Reset the input field
-  };
+    const submitForm = () => {
+    // Logic to handle form submission
+    // For example, you can emit an event to pass the data to the parent component
+    };
+
+    const closeModal = () => {
+    emits('closeModal'); // Emit event to close the modal
+    transactionName.value = ''; // Reset the input field
+    transactionDate.value = ''; // Reset the input field
+    transactionCategory.value = ''; // Reset the input field
+    transactionDescription.value = ''; // Reset the input field
+    transactionTotal.value = ''; // Reset the input field
+    };
 </script>
   

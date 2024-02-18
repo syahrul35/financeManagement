@@ -23,14 +23,19 @@
             </button>
         </div>
         <teleport to="body">
-            <AddCategoryModal v-if="showModal" @closeModal="closeModal" />
+            <AddCategoryModal v-if="showModal" @closeModal="closeModal" :currentType="currentType"/>
         </teleport>
     </div>
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, defineProps } from 'vue';
   import AddCategoryModal from './AddCategoryModal.vue';
+
+  const props = defineProps({
+    currentType: String
+  });
+  // console.log('props', props.currentType)
   
   const currentPage = ref(3);
   const totalPages = ref(5);
@@ -55,11 +60,4 @@
   const closeModal = () => {
     showModal.value = false;
   };
-
-  const closeModalOutside = (event) => {
-    // Tutup modal jika yang diklik adalah latar belakang modal itu sendiri
-    if (event.target === event.currentTarget) {
-        closeModal();
-    }
-    };
 </script>

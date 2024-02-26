@@ -14,16 +14,17 @@
                           <form @submit.prevent="submitForm" class="mt-4">
                               <div class="sm:flex sm:items-center justify-between">
                                   <label for="categoryName" class="block text-sm font-medium text-gray-700 sm:w-2/6">Category Name</label>
-                                  <input type="text" id="categoryName" name="categoryName" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:w-4/6 sm:text-sm border-gray-300 rounded-md" v-model="selectedCategory.categoryName">
+                                  <input type="text" id="categoryName" name="categoryName" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:w-4/6 sm:text-sm border-gray-300 rounded-md" v-model="form.categoryName">
                               </div>
                           </form>
-                          <input type="hidden" id="type" name="type" v-model="selectedCategory.type">
+                          <input type="hidden" id="type" name="type" v-model="form.type">
+                          <input type="hidden" id="type" name="type" v-model="selectedCategory.id">
                       </div>
                   </div>
                   <div class="bg-indigo-200 px-4 py-3 sm:px-6 sm:flex sm:flex-row justify-end">
-                      <form @submit.prevent="submitForm" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-500 text-base font-medium text-white hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:w-auto sm:text-sm mr-2 min-w-20 mt-2">
+                      <button @click="submitForm" type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-500 text-base font-medium text-white hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:w-auto sm:text-sm mr-2 min-w-20 mt-2">
                       Save
-                      </form>
+                      </button>
   
                       <button @click="closeModal" type="button" class="min-w-20 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:w-auto sm:text-sm mt-2">
                       Cancel
@@ -35,26 +36,51 @@
     </transition>
   </template>
     
-    <script setup>
-    import { ref, defineProps, defineEmits, onMounted } from 'vue';
-  
-    const props = defineProps({
-      selectedCategory: Object
+<script setup>
+  import { ref, defineProps, defineEmits, onMounted } from 'vue';
+  import { useForm } from '@inertiajs/vue3';
+
+  const props = defineProps({
+    selectedCategory: Object,
+  });
+
+  const emits = defineEmits(['closeModal'])
+
+  const editedCategory = ref({
+      categoryName: props.selectedCategory.categoryName,
+      type: props.selectedCategory.type,
+      id: props.selectedCategory.id
     });
   
-    const emits = defineEmits(['closeModal'])
+  const form = useForm({
+    categoryName: editedCategory.value.categoryName,
+    type: editedCategory.value.type
+  })
   
-    const editedCategory = ref(null)
-  
-    onMounted(() => {
-      editedCategory.value = props.selectedCategory
-    });
-  
-    const submitForm = () => {
-      // Logika untuk menangani pengiriman formulir
-    };
-  
-    const closeModal = () => {
-      emits('closeModal')
-    };
-  </script>  
+  onMounted(() => {
+    form.categoryName = props.selectedCategory.categoryName
+    form.type = props.selectedCategory.type
+    // console.log("🚀 ~ response ~ editedCategory.value:", editedCategory.value)
+  });
+
+  const messageFromController = ref('');
+
+  const submitForm = async () => {
+    try {
+      // Kirim data yang diperbarui ke Laravel melalui Inertia
+      const response = await form.put(route('category.update', { category: editedCategory.value.id }), {
+        categoryName: editedCategory.value.categoryName,
+        type: editedCategory.value.type
+      });
+      // messageFromController.value = response.message;
+      closeModal();
+      console.log('sukses', response)
+    } catch (error) {
+      console.error('Terjadi Kesalahan Saat Mengedit Kategori:', error);
+    }
+  };
+
+  const closeModal = () => {
+    emits('closeModal')
+  };
+</script>

@@ -52,7 +52,7 @@ const form = useForm({
 
 const submitForm = async () => {
   try {
-    const response = await form.post(route('setting.store'), {
+    const response = await form.post(route('category.store'), {
       categoryName: form.categoryName,
       type: form.type
     });

@@ -6,6 +6,7 @@
     
     <ButtonActionCategory :currentType="currentType"></ButtonActionCategory>
 
+    <!-- <div v-if="messageFromController" class="text-red-500">{{ messageFromController }}</div> -->
     <div class="max-h-[60vh] overflow-y-auto mt-2">
       <div class="overflow-x-auto rounded-lg shadow-xl">
         <table class="table-auto min-w-full divide-y divide-gray-200">
@@ -49,6 +50,7 @@
   
 <script setup>
   import { defineProps, ref, computed } from 'vue';
+  import { useForm } from '@inertiajs/vue3';
 
   import ButtonActionCategory from './ButtonActionCategory.vue';
   import SelectType from '../../Components/SelectType.vue';
@@ -87,15 +89,17 @@
   // End Edit Category Modal
 
   // Start Delete Category
+  const form = useForm({})
   const deleteCategory = async (category) => {
-    try {
-      const index = props.categories.findIndex(cat => cat.id === category.id);
-      
-      if (index !== -1) {
-        props.categories.splice(index, 1);
+    if (confirm('Apakah Anda yakin ingin menghapus kategori ini?')) {
+      try {
+        // Lakukan panggilan HTTP untuk menghapus kategori
+        await form.delete(route('category.destroy', { category: category.id }));
+        // Refresh halaman setelah kategori dihapus
+        // this.$inertia.reload();
+      } catch (error) {
+        console.error('Terjadi kesalahan saat menghapus kategori:', error);
       }
-    } catch (error) {
-      console.error('An Error Occurred While Delete Category:', error);
     }
   };
   // End Delete Category

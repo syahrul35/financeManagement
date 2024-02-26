@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -43,6 +44,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('transactions', TransactionController::class);
     Route::resource('report', ReportController::class);
     Route::resource('setting', SettingController::class);
+
+    // CRUD Route
+    Route::resource('category', CategoryController::class);
 });
 
 require __DIR__.'/auth.php';

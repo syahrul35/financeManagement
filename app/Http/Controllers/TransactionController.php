@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Transactions/Transactions');
+        $categories = Category::all();
+        return Inertia::render('Transactions/Transactions', ['categories' => $categories]);
     }
 
     /**

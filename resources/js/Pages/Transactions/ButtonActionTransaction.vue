@@ -29,7 +29,7 @@
             </button>
         </div>
         <teleport to="body">
-            <AddTransaction v-if="showModal" @closeModal="closeModal" :categories="categories" />
+            <AddTransaction v-if="showModal" @closeModal="closeModal" :categories="categories" :userId="userId"/>
         </teleport>
     </div>
 </template>
@@ -39,7 +39,8 @@ import AddTransaction from "../../Partials/TransactionsTable/AddTransactionModal
 import { ref, defineProps } from "vue";
 
 const props = defineProps({
-    categories: Array
+    categories: Array,
+    userId: String,
 })
 
 const showModal = ref(false);

@@ -7,7 +7,7 @@
             <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 max-h-[60vh] overflow-y-auto">
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 capitalize" id="modal-title">
                             Add Category - {{ props.currentType }}
                         </h3>
                         <!-- Your input fields for adding category -->
@@ -36,34 +36,34 @@
 </template>
   
 <script setup>
-import { defineProps, defineEmits } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+  import { defineProps, defineEmits } from 'vue';
+  import { useForm } from '@inertiajs/vue3';
 
-const props = defineProps({
-  currentType: String
-});
+  const props = defineProps({
+    currentType: String
+  });
 
-const emits = defineEmits(['closeModal']);
+  const emits = defineEmits(['closeModal']);
 
-const form = useForm({
-  categoryName: '',
-  type: props.currentType
-});
+  const form = useForm({
+    categoryName: '',
+    type: props.currentType
+  });
 
-const submitForm = async () => {
-  try {
-    const response = await form.post(route('category.store'), {
-      categoryName: form.categoryName,
-      type: form.type
-    });
-    closeModal();
+  const submitForm = async () => {
+    try {
+      const response = await form.post(route('category.store'), {
+        categoryName: form.categoryName,
+        type: form.type
+      });
+      closeModal();
 
-  } catch (error) {
-    console.error('An Error Occurred While Add Category:', error);
-  }
-};
+    } catch (error) {
+      emitAlert('Failed to add category', 'error');
+    }
+  };
 
-const closeModal = () => {
-  emits('closeModal');
-};
+  const closeModal = () => {
+    emits('closeModal');
+  };
 </script>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
@@ -30,7 +32,30 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate request data
+        $validatedData = $request->validate([
+            'idUser' => 'required',
+            'idCategory' => 'required',
+            'date' => 'required|date',
+            'total' => 'required|numeric',
+            'desc' => 'nullable|string',
+            'isATM' => 'nullable|boolean',
+        ]);
+
+        try {
+            $newtransaction = Transaction::create([
+                'idUser' => $validatedData['idUser'],
+                'idCategory' => $validatedData['idCategory'],
+                'date' => $validatedData['date'],
+                'total' => $validatedData['total'],
+                'desc' => $request->input('desc'),
+                'isATM' => $request->input('isATM'),
+            ]);
+
+            return Redirect::route('transactions.index')->with('message', 'Transaction Successfully Created!');
+        } catch (\Throwable $th) {
+            return Redirect::route('transactions.index')->with('message', 'Transaction Failed to Create!')->withErrors(['error' => $th->getMessage()]);
+        }
     }
 
     /**

@@ -8,7 +8,7 @@
 
     <div id="table" class="bg-gray-50 shadow-lg rounded-xl min-w-full">
       <div class="m-2">
-        <ButtonActionTransaction :categories="categories"></ButtonActionTransaction>
+        <ButtonActionTransaction :categories="categories" :userId="userId"></ButtonActionTransaction>
         <TableTransactions></TableTransactions>
       </div>
     </div>
@@ -19,12 +19,13 @@
 <script setup>
   import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
   import { Head, useForm } from '@inertiajs/vue3';
-  import { onMounted } from 'vue';
+  import { onMounted, defineProps } from 'vue';
 
   import TableTransactions from '../../Partials/TransactionsTable/TableTransactions.vue';
   import ButtonActionTransaction from './ButtonActionTransaction.vue';
 
   const props = defineProps({
-    categories: Array
+    categories: Array,
+    userId: String,
   })
 </script>

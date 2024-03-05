@@ -23,43 +23,44 @@
                                 <div class="mt-4 sm:flex sm:items-center">
                                     <label for="transactionCategory"
                                         class="block text-sm font-medium text-gray-700 sm:w-1/4 grid justify-start grid justify-items-start">Category</label>
-                                    <select id="transactionCategory"
-                                        name="transactionCategory"
+                                    <select id="transactionCategory" name="transactionCategory" v-model="form.idCategory"
                                         class="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm sm:w-3/4">
                                         <option value="">Select a category</option>
-                                        <option v-for="category in filteredCategories" :value="category" :key="category.id">{{ category.categoryName }}</option>
+                                        <option v-for="category in filteredCategories" :value="category.id" :key="category.id">
+                                            {{ category.categoryName }}</option>
                                     </select>
                                 </div>
                                 <!-- Tambahkan bagian ini untuk form tambahan -->
                                 <div class="mt-4 sm:flex sm:items-center">
                                     <label for="transactionDate"
                                         class="block text-sm font-medium text-gray-700 sm:w-1/4 grid justify-start">Date</label>
-                                    <input type="date" id="transactionDate" name="transactionDate"
+                                    <input type="date" id="transactionDate" name="transactionDate" v-model="form.date"
                                         class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm sm:w-3/4">
                                 </div>
                                 <div class="mt-4 sm:flex sm:items-center">
                                     <label for="transactionDescription"
                                         class="block text-sm font-medium text-gray-700 sm:w-1/4 grid justify-start">Description</label>
-                                    <textarea id="transactionDescription"
-                                        name="transactionDescription" rows="3"
+                                    <textarea id="transactionDescription" name="transactionDescription" rows="3" v-model="form.desc"
                                         class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm sm:w-3/4"></textarea>
                                 </div>
                                 <div class="mt-4 sm:flex sm:items-center">
                                     <label for="transactionTotal"
                                         class="block text-sm font-medium text-gray-700 sm:w-1/4 grid justify-start">Total</label>
-                                    <input type="number" id="transactionTotal"
-                                        name="transactionTotal"
+                                    <input type="text" id="transactionTotal" name="transactionTotal"  v-model="formattedTotal" @input="formattedTotal = $event.target.value"
                                         class="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm sm:w-3/4">
+                                </div>
+                                <div class="mt-4 sm:flex sm:items-center">
+                                    <span class="block text-sm font-medium text-gray-700 justify-start ">Is This Transaction Used ATM?</span>
+                                    <input type="checkbox" id="transactionIsATM" name="transactionIsATM" v-model="form.isATM" class="mx-2 rounded-sm">
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="bg-indigo-200 px-4 py-3 sm:px-6 sm:flex sm:flex-row justify-end">
-                        <form @submit.prevent="submitForm" type="submit"
+                        <button @click="submitForm" type="button"
                             class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-500 text-base font-medium text-white hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:w-auto sm:text-sm mr-2 min-w-20 mb-2">
                             Save
-                        </form>
-
+                        </button>
                         <button @click="closeModal" type="button"
                             class="min-w-20 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:w-auto sm:text-sm mb-2">
                             Cancel
@@ -73,11 +74,12 @@
 
 <script setup>
     import { ref, defineProps, defineEmits, computed } from 'vue';
-    import SelectType from '../../Components/SelectType.vue';
     import { useForm } from '@inertiajs/vue3';
+    import SelectType from '../../Components/SelectType.vue';
 
     const props = defineProps({
-        categories: Array
+        categories: Array,
+        userId: String,
     });
 
     // Modal
@@ -96,19 +98,37 @@
     });
 
     const form = useForm({
+        idUser: userId,
         idCategory: '',
         date: '',
         total: '',
-        desc: ''
+        desc: '',
+        isATM: ''
+    })
+
+    const formattedTotal = computed({
+        get: () => {
+            // Menggunakan regex untuk menambahkan titik sebagai pemisah ribuan saat menampilkan nilai
+            return form.total.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        },
+        set: (newValue) => {
+            // Menghapus titik dari nilai yang dimasukkan ke dalam form saat disimpan
+            form.total = newValue.replace(/\D/g, '');
+        }
     })
 
     const submitForm = async () => {
         try {
-            await form.post(route('transaction.store'), {
+            // form.isATM = document.getElementById('transactionIsATM').checked;
+            console.log('cek', form.total.replace(/\D/g, ''))
+
+            await form.post(route('transactions.store'), {
+                idUser: form.idUser,
                 idCategory: form.idCategory,
                 date: form.date,
-                total: form.total,
-                desc: form.desc
+                total: form.total.replace(/\D/g, ''),
+                desc: form.desc,
+                isATM: form.isATM
             })
             closeModal()
 

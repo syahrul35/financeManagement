@@ -13,7 +13,9 @@ class Transaction extends Model
         'idUser',
         'idCategory',
         'date',
-        'total'
+        'total',
+        'desc',
+        'isATM',
     ];
 
     public function user()

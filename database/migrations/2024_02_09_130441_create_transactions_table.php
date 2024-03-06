@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('idCategory')->unsigned();
             $table->foreign('idCategory')->references('id')->on('categories');
             $table->date('date');
-            $table->float('total');
+            $table->decimal('total', 10,2);
             $table->text('desc')->nullable();
             $table->boolean('isATM')->default(false);
             $table->timestamps();

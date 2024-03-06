@@ -16,7 +16,8 @@ class TransactionController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return Inertia::render('Transactions/Transactions', ['categories' => $categories]);
+        $transactions = Transaction::all();
+        return Inertia::render('Transactions/Transactions', ['categories' => $categories, 'transactions' => $transactions]);
     }
 
     /**
@@ -48,8 +49,8 @@ class TransactionController extends Controller
                 'idCategory' => $validatedData['idCategory'],
                 'date' => $validatedData['date'],
                 'total' => $validatedData['total'],
-                'desc' => $request->input('desc'),
-                'isATM' => $request->input('isATM'),
+                'desc' => $validatedData['desc'],
+                'isATM' => $validatedData['isATM'],
             ]);
 
             return Redirect::route('transactions.index')->with('message', 'Transaction Successfully Created!');

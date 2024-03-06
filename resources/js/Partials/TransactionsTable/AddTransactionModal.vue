@@ -119,9 +119,6 @@
 
     const submitForm = async () => {
         try {
-            // form.isATM = document.getElementById('transactionIsATM').checked;
-            console.log('cek', form.total.replace(/\D/g, ''))
-
             await form.post(route('transactions.store'), {
                 idUser: form.idUser,
                 idCategory: form.idCategory,

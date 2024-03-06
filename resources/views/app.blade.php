@@ -17,5 +17,8 @@
     </head>
     <body class="font-body antialiased">
         @inertia
+        <script>
+            window.userId = {{ auth()->id() }}
+        </script>
     </body>
 </html>

@@ -79,10 +79,10 @@ class CategoryController extends Controller
         try {
             $category = Category::findOrFail($category->id);
 
-            $category->categoryName = $validatedData['categoryName'];
-            $category->type = $validatedData['type'];
-
-            $category->save();
+            $category->update([
+                'categoryName' => $validatedData['categoryName'],
+                'type' => $validatedData['type'],
+            ]);
 
             return Redirect::route('setting.index')->with('message', 'Category Successfully to Update!');
 

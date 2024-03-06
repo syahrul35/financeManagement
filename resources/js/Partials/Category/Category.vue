@@ -5,8 +5,9 @@
     <SelectType :selectedType="selectedType" @update:selectedType="handleTypeChange"></SelectType>
     
     <ButtonActionCategory :currentType="currentType"></ButtonActionCategory>
-
-    <!-- <div v-if="messageFromController" class="text-red-500">{{ messageFromController }}</div> -->
+    
+    <Alert :message="alertMessage" :type="alertType" v-if="showAlert" />
+    <!-- alert pesan -->
     <div class="max-h-[60vh] overflow-y-auto mt-2">
       <div class="overflow-x-auto rounded-lg shadow-xl">
         <table class="table-auto min-w-full divide-y divide-gray-200">
@@ -14,7 +15,6 @@
             <tr>
                 <th scope="col" class="w-4/12 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">Category Name</th>
                 <th scope="col" class="w-4/12 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">Description</th>
-                <th scope="col" class="w-4/12 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">id</th>
                 <th scope="col" class="w-4/12 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">Action</th>
             </tr>
           </thead>
@@ -22,7 +22,6 @@
             <tr v-for="category in filteredCategories" :key="category.id" >
               <td class="w-4/12 px-6 py-4 whitespace-wrap capitalize">{{ category.categoryName }}</td>
               <td class="w-4/12 px-6 py-4 whitespace-wrap capitalize">{{ category.type }}</td>
-              <td class="w-4/12 px-6 py-4 whitespace-wrap capitalize">{{ category.id }}</td>
               <td class="w-4/12 px-6 py-4">
                 <div class="flex justify-center">
                   <button @click="openModal(category)" class="flex flex-row items-center bg-yellow-500 text-white font-medium text-sm px-2 p-1 rounded-md focus:outline-none mx-1">
@@ -49,34 +48,38 @@
 </template>
   
 <script setup>
-  import { defineProps, ref, computed } from 'vue';
+  import { defineProps, ref, computed, onMounted } from 'vue';
   import { useForm } from '@inertiajs/vue3';
-
+  import Alert from '../../Components/Alert.vue';
   import ButtonActionCategory from './ButtonActionCategory.vue';
   import SelectType from '../../Components/SelectType.vue';
   import EditModal from './EditCategoryModal.vue';
 
-  // Start Category Filter
+  // Props
   const props = defineProps({
     categories: Array,
     selectedType: String,
     currentType: String
   });
 
+  // State
+  const showModal = ref(false);
+  const selectedCategory = ref(null);
+  const form = useForm({});
+  const showAlert = ref(false);
+  const alertMessage = ref('');
+  const alertType = ref('');
+
+  // Computed
   const currentType = ref('income');
-
-  const handleTypeChange = (type) => {
-    currentType.value = type;
-  };
-
   const filteredCategories = computed(() => {
     return props.categories.filter(category => category.type === currentType.value);
   });
-  // End Category Filter
 
-  // Start Edit Category Modal
-  const showModal = ref(false);
-  const selectedCategory = ref(null)
+  // Methods
+  const handleTypeChange = (type) => {
+    currentType.value = type;
+  };
 
   const openModal = (category) => {
     selectedCategory.value = category;
@@ -86,21 +89,21 @@
   const closeModal = () => {
     showModal.value = false;
   };
-  // End Edit Category Modal
 
-  // Start Delete Category
-  const form = useForm({})
   const deleteCategory = async (category) => {
-    if (confirm('Apakah Anda yakin ingin menghapus kategori ini?')) {
+    if (confirm('Are You Sure to Delete This Category?')) {
       try {
-        // Lakukan panggilan HTTP untuk menghapus kategori
         await form.delete(route('category.destroy', { category: category.id }));
-        // Refresh halaman setelah kategori dihapus
-        // this.$inertia.reload();
+        showAlertHandler('Category successfully deleted', 'success');
       } catch (error) {
-        console.error('Terjadi kesalahan saat menghapus kategori:', error);
+        showAlertHandler('Failed to delete category', 'error');
       }
     }
   };
-  // End Delete Category
+
+  const showAlertHandler = (message, type = 'info') => {
+    alertMessage.value = message;
+    alertType.value = type;
+    showAlert.value = true;
+  };
 </script>

@@ -53,9 +53,19 @@ class TransactionController extends Controller
                 'isATM' => $validatedData['isATM'],
             ]);
 
-            return Redirect::route('transactions.index')->with('message', 'Transaction Successfully to Created!');
-        } catch (\Throwable $th) {
-            return Redirect::route('transactions.index')->with('message', 'Transaction Failed to Create!')->withErrors(['error' => $th->getMessage()]);
+            return Redirect::route('transactions.index')->with([
+                'message' => [
+                    'type' => 'success',
+                    'message' => 'Transaction Successfully to Create!'
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return Redirect::route('transactions.index')->with([
+                'message' => [
+                    'type' => 'error',
+                    'message' => 'Transaction Failed to Create!' . $e->getMessage()
+                ]
+            ]);
         }
     }
 
@@ -102,9 +112,19 @@ class TransactionController extends Controller
                 'isATM' => $validatedData['isATM'],
             ]);
 
-            return Redirect::route('transactions.index')->with('message', 'Transaction Successfully to Update!');
-        } catch (\Throwable $th) {
-            return Redirect::route('transactions.index')->with('message', 'Transaction Failed to Update!')->withErrors(['error' => $th->getMessage()]);
+            return Redirect::route('transactions.index')->with([
+                'message' => [
+                    'type' => 'success',
+                    'message' => 'Transaction Successfully to Update!'
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return Redirect::route('transactions.index')->with([
+                'message' => [
+                    'type' => 'error',
+                    'message' => 'Transaction Failed to Update!' . $e->getMessage()
+                ]
+            ]);
         }
     }
 
@@ -117,9 +137,19 @@ class TransactionController extends Controller
             $transaction = Transaction::findOrFail($transaction->id);
             $transaction->delete();
 
-            return Redirect::route('transactions.index')->with('message', 'Transacation Successfully to Delete!');
+            return Redirect::route('transactions.index')->with([
+                'message' => [
+                    'type' => 'success',
+                    'message' => 'Transaction Successfully to Delete!'
+                ]
+            ]);
         } catch (\Exception $e) {
-            return Redirect::route('transactions.index')->with('message', 'Transaction Failed to Delete!', 'error: ' . $e->getMessage());
+            return Redirect::route('transactions.index')->with([
+                'message' => [
+                    'type' => 'error',
+                    'message' => 'Transaction Failed to Delete!' . $e->getMessage()
+                ]
+            ]);
         }
     }
 }

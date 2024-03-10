@@ -119,6 +119,8 @@
 
     const submitForm = async () => {
         try {
+            form.isATM = form.isATM || false;
+
             await form.post(route('transactions.store'), {
                 idUser: form.idUser,
                 idCategory: form.idCategory,

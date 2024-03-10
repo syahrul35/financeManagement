@@ -22,15 +22,15 @@
 </template>
 
 <script setup>
-  import { defineEmits, ref, defineProps } from 'vue';
+    import { defineEmits, ref, defineProps } from 'vue'
 
-  const props = defineProps({
-      selectedType: String // Menerima jenis transaksi yang dipilih dari parent component
-  });
+    const props = defineProps({
+        selectedType: String
+    });
 
-  const emits = defineEmits(['update:selectedType', 'type:change']);
+    const emits = defineEmits(['update:selectedType', 'type:change'])
 
-  const selectType = (type) => {
-      emits('type:change', type); // Mengirimkan jenis transaksi yang dipilih ke parent component
-  };
+    const selectType = (type) => {
+        emits('update:selectedType', type)
+    };
 </script>

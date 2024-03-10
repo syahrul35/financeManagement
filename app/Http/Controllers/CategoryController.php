@@ -43,10 +43,19 @@ class CategoryController extends Controller
                 'type' => $validatedData['type'],
             ]);
 
-            // Return a response with the created category data
-            return Redirect::route('setting.index')->with('message', 'Category Successfully to Create!');
+            return Redirect::route('setting.index')->with([
+                'message' => [
+                    'type' => 'success',
+                    'message' => 'Category Successfully to Create!'
+                ]
+            ]);
         } catch (\Exception $e) {
-            return Redirect::route('setting.index')->with('message', 'Category Failed to Create!', 'error: ' . $e->getMessage());
+            return Redirect::route('setting.index')->with([
+                'message' => [
+                    'type' => 'error',
+                    'message' => 'Category Failed to Create!' . $e->getMessage()
+                ]
+            ]);
         };
     }
 
@@ -84,10 +93,19 @@ class CategoryController extends Controller
                 'type' => $validatedData['type'],
             ]);
 
-            return Redirect::route('setting.index')->with('message', 'Category Successfully to Update!');
-
+            return Redirect::route('setting.index')->with([
+                'message' => [
+                    'type' => 'success',
+                    'message' => 'Category Successfully to Update!'
+                ]
+            ]);
         } catch (\Exception $e) {
-            return Redirect::route('setting.index')->with('message', 'Category Failed to Update!', 'error: ' . $e->getMessage());
+            return Redirect::route('setting.index')->with([
+                'message' => [
+                    'type' => 'error',
+                    'message' => 'Category Failed to Update!' . $e->getMessage()
+                ]
+            ]);
         }
     }
 
@@ -100,10 +118,19 @@ class CategoryController extends Controller
             $category = Category::findOrfail($category->id);
             $category->delete();
 
-            return Redirect::route('setting.index')->with('message', 'Category Successfully to Delete!');
+            return Redirect::route('setting.index')->with([
+                'message' => [
+                    'type' => 'success',
+                    'message' => 'Category Successfully to Delete!'
+                ]
+            ]);
         } catch (\Exception $e) {
-            return Redirect::route('setting.index')->with('message', 'Category Failed to Delete!', 'error: ' . $e->getMessage());
+            return Redirect::route('setting.index')->with([
+                'message' => [
+                    'type' => 'error',
+                    'message' => 'Category Failed to Delete!' . $e->getMessage()
+                ]
+            ]);
         }
-    
     }
 }

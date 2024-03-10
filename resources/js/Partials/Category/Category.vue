@@ -2,7 +2,7 @@
   <div class="m-2">
     <h1 class="text-lg font-semibold mb-2 text-gray-700">Category</h1>
 
-    <SelectType :selectedType="currentType" @update:selectedType="handleTypeChange"></SelectType>
+    <SelectType :selectedType="selectedType" @type:change="handleTypeChange" />
 
     <ButtonActionCategory :currentType="currentType"></ButtonActionCategory>
 
@@ -55,34 +55,31 @@
 </template>
   
 <script setup>
-  import { defineProps, ref, computed, onMounted } from 'vue'
+  import { defineProps, ref, computed } from 'vue';
   import { useForm } from '@inertiajs/vue3'
 
   import ButtonActionCategory from './ButtonActionCategory.vue'
   import SelectType from '../../Components/SelectType.vue'
   import EditModal from './EditCategoryModal.vue'
 
-  // Props
   const props = defineProps({
     categories: Array,
     selectedType: String,
     currentType: String
   });
 
-  // State
   const showModal = ref(false)
   const selectedCategory = ref(null)
   const form = useForm({})
 
-  // Computed
-  const currentType = ref('income')
+  const selectedType = ref('income')
+
   const filteredCategories = computed(() => {
-    return props.categories.filter(category => category.type === currentType.value)
+      return props.categories.filter(category => category.type === selectedType.value);
   });
 
-  // Methods
   const handleTypeChange = (type) => {
-    currentType.value = type;
+    selectedType.value = type;
   };
 
   const openModal = (category) => {

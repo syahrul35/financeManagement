@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Balance;
 use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -15,9 +17,12 @@ class TransactionController extends Controller
      */
     public function index()
     {
+        
         $categories = Category::all();
         $transactions = Transaction::all();
-        return Inertia::render('Transactions/Transactions', ['categories' => $categories, 'transactions' => $transactions]);
+        $balance = Balance::where('idUser', Auth::user()->id)->pluck('balance')->first();
+
+        return Inertia::render('Transactions/Transactions', ['categories' => $categories, 'transactions' => $transactions, 'balance' => $balance]);
     }
 
     /**
@@ -53,12 +58,41 @@ class TransactionController extends Controller
                 'isATM' => $validatedData['isATM'],
             ]);
 
-            return Redirect::route('transactions.index')->with([
-                'message' => [
-                    'type' => 'success',
-                    'message' => 'Transaction Successfully to Create!'
-                ]
-            ]);
+            $categoryType = Category::where('id', $validatedData['idCategory'])->value('type');
+
+            // Update saldo ATM jika transaksi terkait dengan ATM
+            if ($request->isATM) {
+                $userBalance = Balance::where('idUser', $validatedData['idUser'])->first();
+
+                // Pastikan objek Balance tidak null sebelum memperbarui saldo
+                if ($userBalance) {
+                    if ($categoryType === 'income') {
+                        $userBalance->balance += $validatedData['total'];
+                    } elseif ($categoryType === 'expense') {
+                        $userBalance->balance -= $validatedData['total'];
+                    }
+                    $userBalance->save();
+                } else {
+                    // Jika objek Balance tidak ditemukan, buat objek baru
+                    Balance::create([
+                        'idUser' => $validatedData['idUser'],
+                        'balance' => $validatedData['total'],
+                    ]);
+                }
+                return Redirect::route('transactions.index')->with([
+                    'message' => [
+                        'type' => 'success',
+                        'message' => 'Transaction Successfully to Create!'
+                    ]
+                ]);
+            } else {
+                return Redirect::route('transactions.index')->with([
+                    'message' => [
+                        'type' => 'success',
+                        'message' => 'Transaction Successfully to Create!'
+                    ]
+                ]);
+            }            
         } catch (\Exception $e) {
             return Redirect::route('transactions.index')->with([
                 'message' => [
@@ -137,12 +171,36 @@ class TransactionController extends Controller
             $transaction = Transaction::findOrFail($transaction->id);
             $transaction->delete();
 
-            return Redirect::route('transactions.index')->with([
-                'message' => [
-                    'type' => 'success',
-                    'message' => 'Transaction Successfully to Delete!'
-                ]
-            ]);
+            $categoryType = Category::where('id', $transaction->idCategory)->value('type');
+
+            // Update saldo ATM jika transaksi terkait dengan ATM
+            if ($transaction->isATM) {
+                $userBalance = Balance::where('idUser', $transaction->idUser)->first();
+
+                // Pastikan objek Balance tidak null sebelum memperbarui saldo
+                if ($userBalance) {
+                    if ($categoryType === 'income') {
+                        $userBalance->balance -= $transaction->total;
+                    } elseif ($categoryType === 'expense') {
+                        $userBalance->balance += $transaction->total;
+                    }
+                    $userBalance->save();
+                }
+
+                return Redirect::route('transactions.index')->with([
+                    'message' => [
+                        'type' => 'success',
+                        'message' => 'Transaction Successfully to Delete!'
+                    ]
+                ]);
+            } else {
+                return Redirect::route('transactions.index')->with([
+                    'message' => [
+                        'type' => 'success',
+                        'message' => 'Transaction Successfully to Delete!'
+                    ]
+                ]);
+            }
         } catch (\Exception $e) {
             return Redirect::route('transactions.index')->with([
                 'message' => [

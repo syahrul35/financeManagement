@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\Category;
+use App\Models\CategoryPreferences;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -43,4 +46,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            // Buat kategori preferensi default untuk pengguna baru
+            $categories = Category::whereBetween('id', [1, 20])->get();
+            foreach ($categories as $category) {
+                CategoryPreferences::create([
+                    'idUser' => $user->id,
+                    'idCategory' => $category->id,
+                ]);
+            }
+        });
+    }
 }

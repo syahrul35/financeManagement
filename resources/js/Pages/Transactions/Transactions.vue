@@ -6,6 +6,8 @@
       Transactions
     </template>
 
+    <Balance :balance="balance"></Balance>
+
     <div id="table" class="bg-gray-50 shadow-lg rounded-xl min-w-full">
       <div class="m-2">
         <div class="flash-message-container mb-2">
@@ -31,11 +33,13 @@
   import TableTransactions from '../../Partials/TransactionsTable/TableTransactions.vue';
   import ButtonActionTransaction from './ButtonActionTransaction.vue';
   import Flashmessage from '@/Components/Flashmessage.vue';
+  import Balance from '@/Components/Balance.vue';
 
   const props = defineProps({
     categories: Array,
     transactions: Array,
-  })
+    balance: Object, // Mengubah tipe props balance menjadi Object
+  })  
 
   const userId = ref(window.userId.toString())
 </script>

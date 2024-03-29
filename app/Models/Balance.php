@@ -12,6 +12,9 @@ class Balance extends Model
     protected $fillable = [
         'idUser',
         'balance',
+        'atm_balance',
+        'physical_money',
+        'total_balance',
     ];
 
     public function user()

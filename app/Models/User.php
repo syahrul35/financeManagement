@@ -60,6 +60,13 @@ class User extends Authenticatable
                     'idCategory' => $category->id,
                 ]);
             }
+
+            Balance::create([
+                'idUser' => $user->id,
+                'atm_balance' => 0,
+                'physical_money' => 0,
+                'total_balance' => 0,
+            ]);
         });
     }
 }

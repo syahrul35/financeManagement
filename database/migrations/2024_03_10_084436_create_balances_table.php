@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('idUser')->unsigned();
             $table->foreign('idUser')->references('id')->on('users');
-            $table->decimal('balance', 10,2);
+            $table->decimal('atm_balance', 10,2);
+            $table->decimal('physical_money', 10,2);
+            $table->decimal('total_balance', 10,2);
             $table->timestamps();
         });
     }

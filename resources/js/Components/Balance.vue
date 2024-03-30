@@ -1,16 +1,20 @@
 <template>
-    <div class="bg-gray-50 shadow-lg rounded-xl w-4/12 mb-2 text-sm">
-        <div class="m-2">
-            <span>Saldo ATM: </span>
-            <span>{{ balance.atm_balance }}</span>
+    <div class="bg-gray-50 shadow-lg rounded-xl min-w-72 max-w-72 mb-2 text-sm">
+        <div class="m-2 flex justify">
+            <span class="w-28">ATM Balance</span>
+            <span class="w-4">:</span>
+            <span>{{ formattedTotal(balance.atm_balance) }}</span>
         </div>
-        <div class="m-2">
-            <span>Uang Fisik: </span>
-            <span>{{ balance.physical_money }}</span>
+        <div class="m-2 flex justify">
+            <span class="w-28">Physical Money</span>
+            <span class="w-4">:</span>
+            <span>{{ formattedTotal(balance.physical_money) }}</span>
         </div>
-        <div class="m-2">
-            <span>Total Saldo: </span>
-            <span>{{ balance.total_balance }}</span>
+        <hr class="w-10/12 mx-auto">
+        <div class="m-2 flex justify">
+            <span class="w-28">Total Balance</span>
+            <span class="w-4">:</span>
+            <span>{{ formattedTotal(balance.total_balance) }}</span>
         </div>
     </div>
 </template>
@@ -21,4 +25,9 @@
     const props = defineProps({
         balance: Object
     })
+
+    const formattedTotal = (total) => {
+        const roundedTotal = Math.round(total);
+        return roundedTotal.toLocaleString('id-ID');
+    };
 </script>

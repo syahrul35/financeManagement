@@ -40,7 +40,7 @@ import { ref, defineProps } from "vue";
 
 const props = defineProps({
     categories: Array,
-    userId: String,
+    userId: Number,
 })
 
 const showModal = ref(false);

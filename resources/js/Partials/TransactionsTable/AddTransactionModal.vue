@@ -79,7 +79,7 @@
 
     const props = defineProps({
         categories: Array,
-        userId: String,
+        userId: Number,
     });
 
     // Modal

@@ -41,5 +41,5 @@
     balance: Object, // Mengubah tipe props balance menjadi Object
   })  
 
-  const userId = ref(window.userId.toString())
+  const userId = ref(window.userId).value
 </script>

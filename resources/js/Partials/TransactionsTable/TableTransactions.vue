@@ -75,7 +75,7 @@
   // Props
   const props = defineProps({
     transactions: Array,
-    userId: String,
+    userId: Number,
     categories: Array,
   });
 

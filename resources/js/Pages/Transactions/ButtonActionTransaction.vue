@@ -1,7 +1,10 @@
 <template>
     <div class="flex flex-row mb-2 pr-2">
         <div class="basis-11/12 flex flex-row">
-            <button class="flex flex-row items-center mr-6 text-sm font-medium text-gray-700 focus:outline-none">
+            <button 
+                class="flex flex-row items-center mr-6 text-sm font-medium text-gray-700 focus:outline-none"
+                @click="sortButtonClicked"
+            >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -35,22 +38,42 @@
 </template>
 
 <script setup>
-import AddTransaction from "../../Partials/TransactionsTable/AddTransactionModal.vue";
-import { ref, defineProps } from "vue";
+    import AddTransaction from "../../Partials/TransactionsTable/AddTransactionModal.vue";
+    import { ref, defineProps, defineEmits, watchEffect } from "vue";
 
-const props = defineProps({
-    categories: Array,
-    userId: Number,
-})
+    const props = defineProps({
+        transactions: Array,
+        categories: Array,
+        userId: Number,
+    })
 
-const showModal = ref(false);
+    // const emit = defineEmits(['sort'])
+    const showModal = ref(false)
 
-const openModal = () => {
-    showModal.value = true;
-};
+    const openModal = () => {
+        showModal.value = true
+    }
 
-const closeModal = () => {
-    showModal.value = false;
-};
+    const closeModal = () => {
+        showModal.value = false
+    }
 
+    const emit = defineEmits(['sort'])
+    const sortDirection = ref(-1)
+
+    const sortButtonClicked = () => {
+        sortDirection.value *= -1;
+        sortTransactions();
+    }
+
+    const sortTransactions = () => {
+        const sortedTransactions = props.transactions.slice().sort((a, b) => {
+            return sortDirection.value * (new Date(a.date) - new Date(b.date));
+        });
+        emit('sort', sortedTransactions);
+    }
+
+    watchEffect(() => {
+        sortTransactions(props.transactions);
+    });
 </script>

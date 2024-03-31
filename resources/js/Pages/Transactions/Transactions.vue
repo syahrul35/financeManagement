@@ -17,8 +17,8 @@
             :type="$page.props.flash.message.type"
           />
         </div>
-        <ButtonActionTransaction :categories="categories" :userId="userId"></ButtonActionTransaction>
-        <TableTransactions :transactions="transactions" :categories="categories" :userId="userId"></TableTransactions>
+        <ButtonActionTransaction :categories="categories" :userId="userId" :transactions="transactions" @sort="sortTransactions"></ButtonActionTransaction>
+        <TableTransactions :transactions="sortedTransactions" :categories="categories" :userId="userId"></TableTransactions>
       </div>
     </div>
     
@@ -28,7 +28,7 @@
 <script setup>
   import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
   import { Head, useForm } from '@inertiajs/vue3';
-  import { ref, onMounted, defineProps } from 'vue';
+  import { ref, onMounted, defineProps, watchEffect } from 'vue';
 
   import TableTransactions from '../../Partials/TransactionsTable/TableTransactions.vue';
   import ButtonActionTransaction from './ButtonActionTransaction.vue';
@@ -38,8 +38,16 @@
   const props = defineProps({
     categories: Array,
     transactions: Array,
-    balance: Object, // Mengubah tipe props balance menjadi Object
-  })  
+    balance: Object,
+  })
 
   const userId = ref(window.userId).value
+
+  // Sort Transactions
+  const sortedTransactions = ref([]);
+
+  // Fungsi untuk melakukan sorting
+  const sortTransactions = (sortedData) => {
+      sortedTransactions.value = sortedData;
+  };
 </script>

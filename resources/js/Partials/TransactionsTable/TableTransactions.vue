@@ -29,8 +29,13 @@
             <th scope="col" class="w-2/12 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">Action</th>
           </tr>
         </thead>
-        <tbody class="bg-indigo-100 divide-y divide-gray-200">
-          <tr v-for="transaction in transactions" :key="transaction.id" class="text-center text-sm">
+        <tbody class="bg-indigo-100">
+          <tr 
+            v-for="(transaction, index) in transactions"
+            :key="transaction.id"
+            class="text-center text-sm"
+            :class="{ 'border-b-[3px] border-gray-50': hasBottomBorder(index) }"
+          >
             <td class="w-2/12 px-6 py-4">{{ transaction.date }}</td>
             <td class="w-1/12 px-6 py-4">{{ getCategoryNameById(transaction.idCategory) }}</td>
             <td class="w-4/12 px-6 py-4">{{ transaction.desc }}</td>
@@ -60,17 +65,17 @@
 </template>
 
 <script setup>
-  import { ref, defineProps } from 'vue';
+  import { ref, defineProps, watchEffect } from 'vue';
   import { useForm } from '@inertiajs/vue3';
   import EditModal from '../../Pages/Transactions/EditTransactionModal.vue';
 
   // State variables
-  const currentPage = ref(3);
-  const totalPages = ref(5);
-  const paginatedData = ref([]);
-  const showModal = ref(false);
+  const currentPage = ref(3)
+  const totalPages = ref(5)
+  const paginatedData = ref([])
+  const showModal = ref(false)
   const selectedTransaction = ref(null)
-  const form = useForm({});
+  const form = useForm({})
 
   // Props
   const props = defineProps({
@@ -78,8 +83,15 @@
     userId: Number,
     categories: Array,
   });
+    // console.log("🚀 ~ transactions:", props.transactions)
 
   // Functions
+  const hasBottomBorder = (index) => {
+    const nextTransaction = props.transactions[index + 1];
+    if (!nextTransaction) return false; // Jika tidak ada transaksi berikutnya, tidak perlu border bawah
+    return props.transactions[index].date !== nextTransaction.date;
+  };
+
   function nextPage() {
     if (currentPage.value < totalPages.value) {
       currentPage.value++;
@@ -88,7 +100,7 @@
 
   function prevPage() {
     if (currentPage.value > 1) {
-      currentPage.value--;
+      currentPage.value--
     }
   }
 
@@ -109,18 +121,18 @@
 
   // Methods
   const openModal = (transaction) => {
-    selectedTransaction.value = transaction;
-    showModal.value = true;
+    selectedTransaction.value = transaction
+    showModal.value = true
   };
   
   const closeModal = () => {
-    showModal.value = false;
+    showModal.value = false
   };
 
   async function deleteTransaction(transaction) {
     if (confirm('Are You Sure to Delete This Transaction?')) {
       try {
-        await form.delete(route('transactions.destroy', { transaction: transaction.id }));
+        await form.delete(route('transactions.destroy', { transaction: transaction.id }))
       } catch (error) {
         console.log(error)
       }

@@ -17,12 +17,12 @@
       leave-to-class="opacity-0 transform -translate-x-20">
     <aside v-show="$page.props.showingMobileMenu" class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-indigo-100 md:hidden">
       <div class="py-4 text-gray-500">
-        <Link class="ml-6 text-2xl font-extrabold tracking-wide text-blue-500 hover:text-blue-700" :href="route('dashboard')">
+        <Link class="ml-6 text-2xl font-extrabold tracking-wide text-blue-500 hover:text-blue-700" :href="route('dashboard.index')">
           My<span class="text-gray-800">Finance</span>
         </Link>
         <ul class="mt-6">
           <li class="relative px-6 py-3 text-zinc-800">
-            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+            <ResponsiveNavLink :href="route('dashboard.index')" :active="route().current('dashboard.index')">
               <template #icon>
                 <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
                      stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">

@@ -25,18 +25,19 @@
             <div class="grid grid-cols-7">
                 <div v-for="p in daystoPrepend" :key="p"></div>
                 <div 
-                    :class="[d.isToday() ? 'bg-emerald-100' : '']"
+                    :class="[d.isToday() ? 'bg-purple-100' : '']"
                     class="border border-slate-200 flex flex-col h-32" 
                     v-for="d in units" 
                     :key="d"                
                 >
-                    <div :class="[d.isToday() ? 'bg-emerald-400 text-white' : 'bg-gray-100']" class="text-center">
+                    <div :class="[d.isToday() ? 'bg-purple-600 text-white' : 'bg-gray-100']" class="text-center">
                         <span>{{ d.format('D') }}</span>
                     </div>
-                    <div class="m-auto text-xs text-gray-700 p-2">
-                        <span>
-                            Rp. 500.000
-                        </span>
+                    <div class="m-auto text-xs text-gray-700 p-2" :style="{ color: getTotalTransaction(d).textColor }">
+                        <strong>
+                            <span v-if="getTotalTransaction(d).total != null">Rp. </span>
+                            {{ getTotalTransaction(d).total }}
+                        </strong>
                     </div>
                 </div>
             </div>
@@ -45,10 +46,16 @@
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue';
+    import { ref, computed, defineProps } from 'vue';
     import dayjs from 'dayjs';
     import isToday from 'dayjs/plugin/isToday';
     dayjs.extend(isToday);
+
+    const props = defineProps({
+        transactions: Array,
+    })
+
+    console.log(props.transactions)
 
     const viewDate = ref(dayjs());
 
@@ -78,6 +85,41 @@
     };
     const reset = function () {
         viewDate.value = dayjs();
+    }
+
+    const getTotalTransaction = (date) => {
+        const dateString = date.format('YYYY-MM-DD');
+        const today = dayjs().startOf('day');
+
+        if (date.isAfter(today, 'day')) {
+            return {
+                total: null,
+                textColor: ''
+            };
+        }
+
+        let totalIncome = 0;
+        let totalExpense = 0;
+
+        props.transactions.forEach(transaction => {
+            if (transaction.date === dateString) {
+                if (transaction.idCategory === 1) { // Assuming idCategory 1 is for income
+                    totalIncome += parseFloat(transaction.total);
+                } else {
+                    totalExpense += parseFloat(transaction.total);
+                }
+            }
+        });
+
+        const netIncome = totalIncome - totalExpense;
+        const total = Math.abs(netIncome); // Total sebagai bilangan bulat positif
+
+        const textColor = netIncome >= 0 ? 'green' : 'red'; // Warna teks berdasarkan nilai netIncome
+
+        return {
+            total: total.toLocaleString('id-ID'), // Total sebagai bilangan bulat dengan format Rupiah
+            textColor: textColor // Warna teks
+        };
     };
 
     const weekDays = [
@@ -90,30 +132,3 @@
         'Saturday',
     ];
 </script>
-
-<style scoped>
-@media (max-width: 950px) {
-  .container {
-    padding: 0.5rem;
-  }
-  .calendar {
-    min-width: 650px;
-  }
-  .tag {
-    max-width: 650px;
-  }
-  .overflow-x-auto {
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
-  .grid-cols-7 {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-  }
-  .grid-cols-7 {
-    width: 100%;
-    /* max-width: calc(100% / 1.4); */
-    margin: 0;
-  }
-}
-</style>

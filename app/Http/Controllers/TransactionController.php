@@ -152,13 +152,13 @@ class TransactionController extends Controller
             if ($statusChanged) {
                 // Transaksi asli dan yang diperbarui terkait dengan ATM berbeda
                 if ($transaction->isATM) {
-                    // Transaksi awal terkait dengan ATM
-                    $userBalance->atm_balance -= $transaction->total;
-                    $userBalance->physical_money += $transaction->total;
-                } else {
-                    // Transaksi awal tidak terkait dengan ATM
+                    // Transaksi awal tidak terkait dengan ATM, diubah menggunakan ATM
                     $userBalance->atm_balance += $transaction->total;
                     $userBalance->physical_money -= $transaction->total;
+                } else {
+                    // Transaksi awal terkait dengan ATM, diubah tidak menggunakan ATM
+                    $userBalance->atm_balance -= $transaction->total;
+                    $userBalance->physical_money += $transaction->total;
                 }
             } else {
                 // Kedua transaksi terkait dengan ATM atau tidak

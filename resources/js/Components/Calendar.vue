@@ -46,81 +46,79 @@
 </template>
 
 <script setup>
-    import { ref, computed, defineProps } from 'vue';
-    import dayjs from 'dayjs';
-    import isToday from 'dayjs/plugin/isToday';
-    dayjs.extend(isToday);
+    import { ref, computed, defineProps } from 'vue'
+    import dayjs from 'dayjs'
+    import isToday from 'dayjs/plugin/isToday'
+    dayjs.extend(isToday)
 
     const props = defineProps({
         transactions: Array,
     })
 
-    console.log(props.transactions)
-
-    const viewDate = ref(dayjs());
+    const viewDate = ref(dayjs())
 
     const daystoPrepend = computed(() => {
-        const startOfMonth = viewDate.value.startOf("month");
-        const startOfFirstWeek = startOfMonth.startOf("week");
-        const daysToFirstDay = startOfMonth.diff(startOfFirstWeek, "day");
-        return Array.from(new Array(daysToFirstDay).keys());
-    });
+        const startOfMonth = viewDate.value.startOf("month")
+        const startOfFirstWeek = startOfMonth.startOf("week")
+        const daysToFirstDay = startOfMonth.diff(startOfFirstWeek, "day")
+        return Array.from(new Array(daysToFirstDay).keys())
+    })
 
     const units = computed(() => {
-        let ranges = [];
-        let startOfRange = viewDate.value.startOf('month').add(-1,'day');
-        let endOfRange = viewDate.value.endOf('month').add(-1,'day');
+        let ranges = []
+        let startOfRange = viewDate.value.startOf('month').add(-1,'day')
+        let endOfRange = viewDate.value.endOf('month').add(-1,'day')
 
-        let currentDate = startOfRange;
+        let currentDate = startOfRange
 
         while (currentDate.isBefore(endOfRange) || currentDate.isSame(endOfRange)) {
-            currentDate = currentDate.add(1, 'day');
-            ranges.push(currentDate);
+            currentDate = currentDate.add(1, 'day')
+            ranges.push(currentDate)
         }
-        return ranges;
-    });
+        return ranges
+    })
 
     const shiftMonth = function (amount) {
-        viewDate.value = viewDate.value.add(amount, 'month');
-    };
+        viewDate.value = viewDate.value.add(amount, 'month')
+    }
     const reset = function () {
-        viewDate.value = dayjs();
+        viewDate.value = dayjs()
     }
 
     const getTotalTransaction = (date) => {
-        const dateString = date.format('YYYY-MM-DD');
-        const today = dayjs().startOf('day');
+        const dateString = date.format('YYYY-MM-DD')
+        const today = dayjs().startOf('day')
 
         if (date.isAfter(today, 'day')) {
             return {
                 total: null,
                 textColor: ''
-            };
+            }
         }
 
-        let totalIncome = 0;
-        let totalExpense = 0;
+        let totalIncome = 0
+        let totalExpense = 0
 
         props.transactions.forEach(transaction => {
             if (transaction.date === dateString) {
-                if (transaction.idCategory === 1) { // Assuming idCategory 1 is for income
-                    totalIncome += parseFloat(transaction.total);
+                if (transaction.idCategory === 1) {
+                    totalIncome += parseFloat(transaction.total)
                 } else {
-                    totalExpense += parseFloat(transaction.total);
+                    totalExpense += parseFloat(transaction.total)
                 }
             }
-        });
+        })
 
-        const netIncome = totalIncome - totalExpense;
-        const total = Math.abs(netIncome); // Total sebagai bilangan bulat positif
+        const netIncome = totalIncome - totalExpense
+        const total = Math.abs(netIncome)
 
-        const textColor = netIncome >= 0 ? 'green' : 'red'; // Warna teks berdasarkan nilai netIncome
+        const textColor = netIncome >= 0 ? 'green' : 'red'
 
         return {
-            total: total.toLocaleString('id-ID'), // Total sebagai bilangan bulat dengan format Rupiah
-            textColor: textColor // Warna teks
-        };
-    };
+            total: total.toLocaleString('id-ID'),
+            textColor: textColor
+        }
+    }
 
     const weekDays = [
         'Sunday',
@@ -130,5 +128,5 @@
         'Thursday',
         'Friday',
         'Saturday',
-    ];
+    ]
 </script>

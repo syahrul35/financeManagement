@@ -28,7 +28,8 @@
                     :class="[d.isToday() ? 'bg-purple-100' : '']"
                     class="border border-slate-200 flex flex-col h-32" 
                     v-for="d in units" 
-                    :key="d"                
+                    :key="d"
+                    @click="openModal(d)"
                 >
                     <div :class="[d.isToday() ? 'bg-purple-600 text-white' : 'bg-gray-100']" class="text-center">
                         <span>{{ d.format('D') }}</span>
@@ -42,6 +43,15 @@
                 </div>
             </div>
         </div>
+        <teleport to="body">
+            <TransactionModal
+                :isVisible="isModalVisible"
+                :selectedDate="selectedDate"
+                :categories="categories"
+                :transactions="transactions"
+                @close="isModalVisible = false"
+            />
+        </teleport>
     </div>
 </template>
 
@@ -49,13 +59,28 @@
     import { ref, computed, defineProps } from 'vue'
     import dayjs from 'dayjs'
     import isToday from 'dayjs/plugin/isToday'
-    dayjs.extend(isToday)
+    import TransactionModal from '../Pages/Dashboard/DetailTransaction.vue';
 
     const props = defineProps({
         transactions: Array,
+        categories: Array
     })
 
+    const isModalVisible = ref(false)
+    const selectedDate = ref(null)
+
     const viewDate = ref(dayjs())
+    const weekDays = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+    ]
+
+    dayjs.extend(isToday)
 
     const daystoPrepend = computed(() => {
         const startOfMonth = viewDate.value.startOf("month")
@@ -120,13 +145,8 @@
         }
     }
 
-    const weekDays = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-    ]
+    const openModal = (date) => {
+        selectedDate.value = date.format('YYYY-MM-DD')
+        isModalVisible.value = true
+    }
 </script>

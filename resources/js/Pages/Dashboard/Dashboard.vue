@@ -20,7 +20,7 @@
       </a>
     </div>
 
-    <Calendar :transactions="transactions"></Calendar>
+    <Calendar :transactions="transactions" :categories="categories"></Calendar>
 
   </AuthenticatedLayout>
 </template>
@@ -34,5 +34,6 @@
 
   const props = defineProps({
     transactions: Array,
+    categories: Array
   })
 </script>

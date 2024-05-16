@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,7 +15,11 @@ class DashboardController extends Controller
     public function index()
     {
         $transactions = Transaction::all();
-        return Inertia::render('Dashboard', ['transactions' => $transactions]);
+        $categories = Category::all();
+        return Inertia::render('Dashboard/Dashboard', [
+            'transactions' => $transactions,
+            'categories' => $categories
+        ]);
     }
 
     /**

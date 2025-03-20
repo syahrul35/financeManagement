@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Inertia\Inertia;
 
 class ReportController extends Controller
@@ -10,9 +12,44 @@ class ReportController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('Report/Report');
+        $month = $request->query('month', Carbon::now()->month); // Default ke bulan sekarang
+        // dd($month);
+        $year = $request->query('year', Carbon::now()->year); // Default ke tahun sekarang
+
+        $incomeData = Transaction::whereHas('category', function ($query) {
+            $query->where('type', 'income'); // Hanya kategori dengan tipe income
+        })
+        ->whereYear('date', $year)
+        ->whereMonth('date', $month)
+        ->selectRaw('idCategory, SUM(total) as total')
+        ->groupBy('idCategory')
+        ->with('category')
+        ->get();
+
+        $expenseData = Transaction::whereHas('category', function ($query) {
+            $query->where('type', 'expense');
+        })
+        ->whereYear('date', $year)
+        ->whereMonth('date', $month)
+        ->selectRaw('idCategory, SUM(total) as total')
+        ->groupBy('idCategory')
+        ->with('category')
+        ->get();
+
+        return Inertia::render('Report/Report', [
+            'incomeChartData' => [
+                'labels' => $incomeData->pluck('category.categoryName'),
+                'data' => $incomeData->pluck('total'),
+            ],
+            'expenseChartData' => [
+                'labels' => $expenseData->pluck('category.categoryName'),
+                'data' => $expenseData->pluck('total'),
+            ]
+        ]);
+
+        // return Inertia::render('Report/Report');
     }
 
     /**

@@ -33,6 +33,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import { defineProps } from 'vue';
 
 import ButtonActionReport from './ButtonActionReport.vue';
 import TableTransactions from '../../Partials/TransactionsTable/TableTransactions.vue';
@@ -42,4 +43,9 @@ import IncomeChart from './IncomeChart.vue';
 
 import dayjs from 'dayjs';
 const currentMonth = dayjs().format('MMMM');
+
+const props = defineProps({
+  incomeChartData: Object,
+  expenseChartData: Object
+})
 </script>

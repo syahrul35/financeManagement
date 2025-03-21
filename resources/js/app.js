@@ -7,7 +7,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import FlashMessage from './Components/Flashmessage.vue';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = window.APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

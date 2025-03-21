@@ -19,6 +19,7 @@
         @inertia
         <script>
             window.userId = {{ auth()->id() }}
+            window.APP_NAME = "{{ config('app.name', 'Laravel') }}";
         </script>
     </body>
 </html>

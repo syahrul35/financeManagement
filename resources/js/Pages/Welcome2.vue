@@ -57,7 +57,7 @@
                     <div class="space-y-8">
                         <div class="inline-flex items-center px-4 py-2 bg-indigo-50 rounded-full">
                             <span class="w-2 h-2 bg-indigo-600 rounded-full animate-pulse"></span>
-                            <span class="ml-2 text-sm font-medium text-indigo-600">#1615 Personal Finance Tracker</span>
+                            <span class="ml-2 text-sm font-medium text-indigo-600">#7769 Personal Finance Tracker</span>
                         </div>
 
                         <h1 class="text-5xl md:text-6xl font-bold leading-tight">

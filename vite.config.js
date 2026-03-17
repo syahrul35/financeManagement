@@ -18,9 +18,9 @@ export default defineConfig({
         }),
     ],
     server: {
-        host: "72.61.214.176:8082",
-        https: false,
+        host: "https://finance.syahrulmaulana.cloud",
+        https: true,
         cors: false,
-        hmr: { host: "72.61.214.176:8082" },
+        hmr: { host: "https://finance.syahrulmaulana.cloud" },
     },
 });

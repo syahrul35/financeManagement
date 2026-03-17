@@ -17,4 +17,10 @@ export default defineConfig({
             },
         }),
     ],
+    server: {
+        host: "72.61.214.176:8082",
+        https: false,
+        cors: false,
+        hmr: { host: "72.61.214.176:8082" },
+    },
 });
